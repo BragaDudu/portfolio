@@ -31,7 +31,7 @@ const projects = [
   },
   {
     title: "API Weather",
-    description: "Gerenciador de tarefas com drag and drop e filtros avançados.",
+    description: "Plataforma de verificação de clima em tempo real com uso de API.",
     tags: ["HTML", "CSS", "JavaScript"],
     githubUrl: "https://github.com/BragaDudu/API-Weather",
   },
