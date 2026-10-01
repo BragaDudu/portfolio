@@ -210,6 +210,9 @@ h2 { font-size: clamp(26px, 5vw, 34px); letter-spacing: -0.02em; font-weight: 75
 .timeline h4 { font-size: 17px; }
 .timeline h4 span { font-weight: 500; color: var(--text-2); }
 .timeline p:last-child { color: var(--text-2); font-size: 15px; margin-top: 4px; }
+.col-title-gap { margin-top: 28px; }
+.langs { color: var(--text-2); }
+.langs strong { color: var(--text); font-weight: 600; }
 .goal { margin-top: 28px; padding: 16px 18px; border-radius: var(--radius); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
 .goal .col-title { color: var(--accent); margin-bottom: 8px; }
 .goal p { color: var(--text); }

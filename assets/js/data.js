@@ -29,7 +29,7 @@ const STACK = {
   git: { label: "Git e GitHub", group: "Ferramentas", everywhere: true },
   vite: { label: "Vite", group: "Ferramentas" },
   devtools: { label: "Chrome DevTools", group: "Ferramentas", everywhere: true },
-  ai: { label: "Claude Code (IA)", group: "Ferramentas" },
+  ai: { label: "IA: Claude Code, Codex e Copilot", group: "Ferramentas" },
 };
 
 const STUDYING = ["Node.js"];
