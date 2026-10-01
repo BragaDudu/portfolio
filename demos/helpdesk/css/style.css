@@ -1,0 +1,1170 @@
+/*
+ * style.css -- o design system da aplicacao
+ * ==========================================
+ * CSS puro, sem framework, sem build step. O que esta aqui e' exatamente o
+ * que o navegador recebe.
+ *
+ * ORGANIZACAO (nesta ordem, de proposito -- o CSS le de cima para baixo e
+ * a ordem evita que uma regra desfaca a outra sem querer):
+ *
+ *   1. TOKENS      as variaveis: cor, espaco, tipo, sombra, curva
+ *   2. TEMA        claro e escuro, so trocando os tokens
+ *   3. BASE        reset e elementos crus (body, tabela, campo)
+ *   4. LAYOUT      a estrutura da pagina
+ *   5. COMPONENTES cartao, botao, badge, modal, grafico
+ *   6. ANIMACAO    as transicoes e as entradas
+ *
+ * ★ POR QUE TOKENS E NAO CORES SOLTAS: trocar o azul do sistema e' mudar
+ *   UMA linha. Com cores escritas no meio das regras, seria cacar #2563eb
+ *   em 600 linhas -- e sempre sobra uma.
+ */
+
+/* ===========================================================================
+   1. TOKENS + 2. TEMA CLARO (o padrao completo)
+   =========================================================================== */
+:root {
+  /* -- marca: uma escala inteira, nao uma cor solta ---------------------- */
+  --brand-50:  #eef2ff;
+  --brand-100: #e0e7ff;
+  --brand-200: #c7d2fe;
+  --brand-400: #818cf8;
+  --brand-500: #4f5bd5;
+  --brand-600: #3f4bc4;
+  --brand-700: #343d9e;
+
+  /* -- neutros com viés levemente frio, puxando para a marca ------------- */
+  --bg:          #f1f4f9;
+  --bg-subtle:   #e8ecf4;
+  --surface:     #ffffff;
+  --surface-2:   #f7f9fc;
+  --border:      #dfe5ee;
+  --border-soft: #eaeff6;
+
+  --text:        #131a2b;
+  --text-soft:   #566178;
+  --text-faint:  #8a94a8;
+
+  /* -- semanticas: significado, nao decoracao ---------------------------- */
+  --green:      #0f7a4d;
+  --green-bg:   #dcf5e8;
+  --amber:      #9a6206;
+  --amber-bg:   #fdf0d5;
+  --red:        #b42318;
+  --red-bg:     #fdeae7;
+  --gray:       #5b6577;
+  --gray-bg:    #eceff4;
+
+  /* -- sidebar ----------------------------------------------------------- */
+  --sidebar-bg:     #131a2e;
+  --sidebar-bg-2:   #1b2440;
+  --sidebar-text:   #a9b4cc;
+  --sidebar-hover:  #ffffff;
+
+  /* -- forma ------------------------------------------------------------- */
+  --radius-sm: 7px;
+  --radius:    12px;
+  --radius-lg: 16px;
+
+  /* Sombras em camadas: uma linha fina de contato + um halo difuso.
+     Uma sombra unica e grande sempre parece "colada"; duas parecem
+     profundidade de verdade. */
+  --shadow-sm: 0 1px 2px rgba(19, 26, 43, .06);
+  --shadow:    0 1px 2px rgba(19, 26, 43, .05), 0 6px 16px -4px rgba(19, 26, 43, .08);
+  --shadow-lg: 0 2px 4px rgba(19, 26, 43, .05), 0 18px 40px -10px rgba(19, 26, 43, .18);
+  --ring:      0 0 0 3px var(--brand-100);
+
+  /* -- tipo -------------------------------------------------------------- */
+  --font: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  /* -- movimento --------------------------------------------------------- */
+  /* cubic-bezier com saida rapida e chegada suave: parece resposta, nao
+     preguica. Duracoes curtas -- animacao de UI que passa de 300ms comeca
+     a atrasar o usuario em vez de agradar. */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --fast: 140ms;
+  --base: 220ms;
+}
+
+/* --- TEMA ESCURO por preferencia do sistema -------------------------------
+   O seletor :not([data-theme="light"]) faz a escolha explicita do usuario
+   vencer o sistema operacional. Sem isso, quem escolhesse "claro" no site
+   mas usa Windows no escuro continuaria vendo escuro.                      */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand-50:  #1a1f3d;
+    --brand-100: #232a52;
+    --brand-200: #2f3a70;
+    --brand-400: #8c96f0;
+    --brand-500: #7f8bf5;
+    --brand-600: #929cf7;
+    --brand-700: #a8b0f9;
+
+    --bg:          #0c1018;
+    --bg-subtle:   #10151f;
+    --surface:     #151b27;
+    --surface-2:   #1b2231;
+    --border:      #28313f;
+    --border-soft: #202836;
+
+    --text:        #e8edf5;
+    --text-soft:   #a5b0c2;
+    --text-faint:  #767f91;
+
+    --green:    #4ec98d;
+    --green-bg: #0f2e20;
+    --amber:    #e0a33c;
+    --amber-bg: #33260c;
+    --red:      #f07c72;
+    --red-bg:   #371916;
+    --gray:     #98a3b6;
+    --gray-bg:  #1e2531;
+
+    --sidebar-bg:   #0a0e16;
+    --sidebar-bg-2: #121927;
+    --sidebar-text: #97a2b8;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow:    0 1px 2px rgba(0, 0, 0, .35), 0 6px 16px -4px rgba(0, 0, 0, .45);
+    --shadow-lg: 0 2px 4px rgba(0, 0, 0, .4), 0 18px 40px -10px rgba(0, 0, 0, .6);
+    --ring:      0 0 0 3px var(--brand-200);
+  }
+}
+
+/* --- TEMA ESCURO escolhido no botao --------------------------------------- */
+:root[data-theme="dark"] {
+  --brand-50:  #1a1f3d;
+  --brand-100: #232a52;
+  --brand-200: #2f3a70;
+  --brand-400: #8c96f0;
+  --brand-500: #7f8bf5;
+  --brand-600: #929cf7;
+  --brand-700: #a8b0f9;
+
+  --bg:          #0c1018;
+  --bg-subtle:   #10151f;
+  --surface:     #151b27;
+  --surface-2:   #1b2231;
+  --border:      #28313f;
+  --border-soft: #202836;
+
+  --text:        #e8edf5;
+  --text-soft:   #a5b0c2;
+  --text-faint:  #767f91;
+
+  --green:    #4ec98d;
+  --green-bg: #0f2e20;
+  --amber:    #e0a33c;
+  --amber-bg: #33260c;
+  --red:      #f07c72;
+  --red-bg:   #371916;
+  --gray:     #98a3b6;
+  --gray-bg:  #1e2531;
+
+  --sidebar-bg:   #0a0e16;
+  --sidebar-bg-2: #121927;
+  --sidebar-text: #97a2b8;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow:    0 1px 2px rgba(0, 0, 0, .35), 0 6px 16px -4px rgba(0, 0, 0, .45);
+  --shadow-lg: 0 2px 4px rgba(0, 0, 0, .4), 0 18px 40px -10px rgba(0, 0, 0, .6);
+  --ring:      0 0 0 3px var(--brand-200);
+}
+
+/* ===========================================================================
+   3. BASE
+   =========================================================================== */
+* { box-sizing: border-box; }
+
+/*
+ * ★ REGRA IMPORTANTE: o atributo hidden do HTML precisa VENCER.
+ *   O navegador aplica [hidden]{display:none}, mas com baixa prioridade.
+ *   Como .modal usa display:flex (prioridade maior), sem esta linha um
+ *   modal marcado com hidden apareceria mesmo assim. E' assim que os modais
+ *   abrem e fecham em ui.js (el.hidden = true/false).
+ */
+[hidden] { display: none !important; }
+
+html { color-scheme: light dark; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /*
+   * ★ AQUI **NAO** VAI TRANSICAO -- e o motivo vale saber.
+   *
+   * A tentacao e' escrever `transition: background-color .2s` para o tema
+   * trocar suavemente. Nao funciona, e o jeito de falhar e' traicoeiro: a
+   * cor fica PRESA no valor antigo e o tema simplesmente nao muda.
+   *
+   * POR QUE: o valor declarado aqui e' `var(--bg)` -- um texto que NUNCA
+   * muda. Quem muda e' o que a variavel aponta. O navegador, olhando so a
+   * declaracao, nao ve alteracao nenhuma para animar, e a transicao fica
+   * pendurada no valor que ja estava pintado.
+   *
+   * Regra pratica: transicione propriedade que muda por ESTADO (hover,
+   * foco), onde a regra CSS realmente troca. Nao transicione o que muda
+   * por TROCA DE TOKEN. Por isso os botoes e as linhas da tabela abaixo
+   * continuam com transicao no hover -- la o valor declarado muda de
+   * verdade.
+   *
+   * Descoberto testando o botao de tema: a variavel resolvia certo
+   * (#0c1018) e a tela continuava clara. Sem medir, ficaria escondido.
+   */
+}
+
+h1, h2, h3 { margin: 0; letter-spacing: -.018em; }
+h1 { font-size: 25px; font-weight: 700; }
+h2 { font-size: 16px; font-weight: 600; }
+
+/* Foco visivel para quem navega por teclado. Nunca remover sem substituir:
+   sem isso, o teclado fica navegando as cegas. */
+:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection { background: var(--brand-200); color: var(--text); }
+
+/* barra de rolagem discreta */
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--text-faint); background-clip: content-box; }
+
+/* ===========================================================================
+   4. LAYOUT
+   =========================================================================== */
+.layout {
+  display: grid;
+  grid-template-columns: 248px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: linear-gradient(180deg, var(--sidebar-bg) 0%, var(--sidebar-bg-2) 100%);
+  color: var(--sidebar-text);
+  padding: 26px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  border-right: 1px solid rgba(255, 255, 255, .06);
+}
+
+.sidebar__brand {
+  font-size: 19px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -.03em;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.sidebar__brand::before {
+  content: "";
+  width: 9px; height: 22px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--brand-400), var(--brand-600));
+  box-shadow: 0 0 14px rgba(129, 140, 248, .55);
+}
+.sidebar__brand span { color: var(--brand-400); }
+
+.sidebar__nav { display: flex; flex-direction: column; gap: 3px; }
+
+.sidebar__nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--sidebar-text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: color var(--fast) var(--ease), background-color var(--fast) var(--ease);
+}
+/* A barrinha do item ativo cresce de 0 -- e' um detalhe pequeno que faz a
+   navegacao parecer viva em vez de estatica. */
+.sidebar__nav a::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 3px; height: 0;
+  border-radius: 0 3px 3px 0;
+  background: var(--brand-400);
+  transform: translateY(-50%);
+  transition: height var(--base) var(--ease);
+}
+.sidebar__nav a:hover { color: var(--sidebar-hover); background: rgba(255, 255, 255, .05); }
+.sidebar__nav a.active {
+  color: #fff;
+  background: rgba(129, 140, 248, .14);
+}
+.sidebar__nav a.active::before { height: 60%; }
+.sidebar__nav .icon { font-size: 15px; opacity: .85; width: 18px; text-align: center; }
+
+/* botao de tema, no rodape da sidebar */
+.sidebar__foot { margin-top: auto; }
+.theme-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, .04);
+  color: var(--sidebar-text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+.theme-toggle:hover { background: rgba(255, 255, 255, .09); color: #fff; }
+
+.content {
+  padding: 30px 34px 60px;
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.page-header p { margin: 5px 0 0; color: var(--text-soft); font-size: 14px; }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+/* ===========================================================================
+   5. COMPONENTES
+   =========================================================================== */
+
+/* --- painel --------------------------------------------------------------- */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--base) var(--ease), border-color var(--base) var(--ease);
+}
+.panel:hover { box-shadow: var(--shadow); }
+
+.panel__head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--surface-2);
+}
+.panel__body { padding: 20px; }
+.panel__body--flush { padding: 0; }
+
+/* --- cartoes de indicador ------------------------------------------------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform var(--base) var(--ease), box-shadow var(--base) var(--ease);
+}
+/* Faixa superior colorida: a cor CARREGA SIGNIFICADO (verde = saudavel,
+   vermelho = precisa de atencao), entao ela nasce fina e cresce no hover --
+   chama o olho sem gritar o tempo todo. */
+.stat-card::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--brand-500);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--base) var(--ease);
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.stat-card:hover::after { transform: scaleX(1); }
+
+.stat-card--ok::after     { background: var(--green); }
+.stat-card--warn::after   { background: var(--amber); }
+.stat-card--danger::after { background: var(--red); }
+.stat-card--accent::after { background: var(--brand-500); }
+
+.stat-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.stat-card__value {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+.stat-card--ok     .stat-card__value { color: var(--green); }
+.stat-card--warn   .stat-card__value { color: var(--amber); }
+.stat-card--danger .stat-card__value { color: var(--red); }
+
+/* --- tabela --------------------------------------------------------------- */
+table { width: 100%; border-collapse: collapse; }
+
+th, td {
+  padding: 13px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-soft);
+  vertical-align: middle;
+}
+
+th {
+  background: var(--surface-2);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-faint);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/*
+ * ★ O BUG QUE ESTAVA AQUI:
+ *   antes existia so `td.num { text-align: right }`. O resultado e' que os
+ *   NUMEROS ficavam a direita e os TITULOS da coluna continuavam a esquerda
+ *   -- o cabecalho nao ficava em cima do proprio dado.
+ *
+ *   A correcao e' alinhar os dois pelo mesmo seletor. Usando `.num` (sem
+ *   amarrar a td), a mesma classe serve para th e td, e nao ha como
+ *   esquecer um dos dois de novo.
+ */
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+th.num { font-family: var(--font); font-size: 11px; }
+
+tbody tr { transition: background-color var(--fast) var(--ease); }
+tbody tr:hover { background: var(--surface-2); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* --- botao ---------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: var(--brand-500);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--fast) var(--ease), transform var(--fast) var(--ease),
+              box-shadow var(--fast) var(--ease), border-color var(--fast) var(--ease);
+}
+.btn:hover { background: var(--brand-600); box-shadow: var(--shadow-sm); }
+/* O afundar de 1px no clique devolve a sensacao fisica de apertar. */
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+.btn--ghost {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border);
+}
+.btn--ghost:hover { background: var(--surface-2); border-color: var(--text-faint); }
+
+.btn--danger { background: var(--red); }
+.btn--danger:hover { background: var(--red); filter: brightness(.92); }
+
+.btn--sm { padding: 6px 12px; font-size: 12.5px; }
+
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--brand-500);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--fast) var(--ease);
+}
+.link-btn:hover { color: var(--brand-700); }
+
+/* --- badge ---------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .015em;
+  background: var(--gray-bg);
+  color: var(--gray);
+  white-space: nowrap;
+}
+/* O ponto colorido faz o status ser lido pela FORMA tambem, nao so pela
+   cor -- quem nao distingue verde de vermelho continua conseguindo ler. */
+.badge::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.badge--aberto        { background: var(--brand-50);  color: var(--brand-600); }
+.badge--em-andamento  { background: var(--amber-bg);  color: var(--amber); }
+.badge--finalizado    { background: var(--green-bg);  color: var(--green); }
+.badge--online        { background: var(--green-bg);  color: var(--green); }
+.badge--offline       { background: var(--red-bg);    color: var(--red); }
+.badge--manutencao    { background: var(--amber-bg);  color: var(--amber); }
+.badge--reconhecido   { background: var(--amber-bg);  color: var(--amber); }
+.badge--resolvido     { background: var(--green-bg);  color: var(--green); }
+.badge--alta          { background: var(--red-bg);    color: var(--red); }
+.badge--media         { background: var(--amber-bg);  color: var(--amber); }
+.badge--baixa         { background: var(--gray-bg);   color: var(--gray); }
+
+/* severidade de anomalia */
+.sev { font-weight: 700; font-size: 12px; letter-spacing: .04em; }
+.sev--alta  { color: var(--red); }
+.sev--media { color: var(--amber); }
+.sev--baixa { color: var(--gray); }
+
+/* temperatura */
+.temp { font-family: var(--font-mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+.temp--ok   { color: var(--green); }
+.temp--warn { color: var(--amber); }
+.temp--hot  { color: var(--red); }
+/* O pulso so existe no valor CRITICO. Animacao em tudo vira ruido; aqui
+   ela marca a unica linha que exige acao agora. */
+.temp--hot { animation: pulse 2.2s var(--ease) infinite; }
+
+/* --- formulario ----------------------------------------------------------- */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color var(--fast) var(--ease), box-shadow var(--fast) var(--ease),
+              background var(--fast) var(--ease);
+}
+input:hover, select:hover, textarea:hover { border-color: var(--text-faint); }
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--brand-500);
+  box-shadow: var(--ring);
+}
+input::placeholder, textarea::placeholder { color: var(--text-faint); }
+textarea { resize: vertical; min-height: 96px; }
+select { cursor: pointer; }
+select:disabled { background: var(--surface-2); color: var(--text-faint); cursor: not-allowed; }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.filters .field { min-width: 168px; flex: 0 1 auto; }
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-soft);
+}
+
+/* --- linhas de detalhe ---------------------------------------------------- */
+.detail-row {
+  display: grid;
+  grid-template-columns: 158px 1fr;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.detail-row:last-child { border-bottom: none; }
+.detail-row dt { color: var(--text-soft); font-size: 13px; font-weight: 600; }
+.detail-row dd { margin: 0; }
+
+/* --- grafico de barras ---------------------------------------------------- */
+.bar-row {
+  display: grid;
+  grid-template-columns: 152px 1fr 78px;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 0;
+}
+.bar-row__label {
+  font-size: 13px;
+  color: var(--text-soft);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bar-row__value {
+  text-align: right;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+.bar-track {
+  height: 9px;
+  background: var(--bg-subtle);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--brand-500), var(--brand-400));
+  /* A barra cresce da esquerda ate a largura final. E' a animacao que faz
+     o grafico "se desenhar" quando os dados chegam da API. */
+  transform-origin: left;
+  animation: grow-bar 700ms var(--ease) both;
+}
+
+/* --- estados (carregando / vazio / erro) ---------------------------------- */
+.state {
+  padding: 34px 20px;
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 14px;
+}
+.state--error { color: var(--red); font-weight: 500; }
+.state--empty { color: var(--text-faint); }
+
+/* Esqueleto pulsante enquanto a API responde: comunica "estou trabalhando"
+   melhor que a palavra "Carregando", e nao deixa a pagina pular quando o
+   conteudo chega. */
+.state--loading {
+  position: relative;
+  color: transparent;
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--bg-subtle) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  border-radius: var(--radius);
+  animation: shimmer 1.4s linear infinite;
+  min-height: 72px;
+  user-select: none;
+}
+
+/* --- modal ---------------------------------------------------------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: rgba(10, 14, 22, .55);
+  backdrop-filter: blur(3px);
+  animation: fade-in var(--base) var(--ease) both;
+}
+
+.modal__box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 640px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Entra subindo levemente e crescendo de 96% -- a caixa parece "vir para
+     frente" em vez de aparecer do nada. */
+  animation: modal-in 260ms var(--ease) both;
+}
+
+.modal__head {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--surface-2);
+}
+.modal__body { padding: 22px; overflow-y: auto; }
+
+.modal__close {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--text-faint);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: color var(--fast) var(--ease), background-color var(--fast) var(--ease);
+}
+.modal__close:hover { color: var(--text); background: var(--bg-subtle); }
+
+/* --- toast ---------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 90;
+  padding: 13px 18px;
+  border-radius: var(--radius);
+  background: var(--text);
+  color: var(--surface);
+  font-size: 13.5px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  max-width: 380px;
+  animation: toast-in 300ms var(--ease) both;
+}
+.toast--success { background: var(--green); color: #fff; }
+.toast--error   { background: var(--red);   color: #fff; }
+
+.muted { color: var(--text-soft); }
+
+/* ===========================================================================
+   6. ANIMACAO
+   =========================================================================== */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(12px) scale(.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(14px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+@keyframes grow-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .55; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Entrada da pagina: o conteudo sobe suavemente ao carregar. */
+.content > * { animation: rise 420ms var(--ease) both; }
+/* O escalonamento faz os blocos aparecerem em cascata em vez de todos de
+   uma vez. Quatro niveis bastam -- alem disso o usuario ja esta esperando. */
+.content > *:nth-child(1) { animation-delay: 0ms; }
+.content > *:nth-child(2) { animation-delay: 60ms; }
+.content > *:nth-child(3) { animation-delay: 120ms; }
+.content > *:nth-child(4) { animation-delay: 180ms; }
+
+/* Cartoes entram em cascata dentro da propria grade. */
+.stat-grid .stat-card { animation: rise 420ms var(--ease) both; }
+.stat-grid .stat-card:nth-child(1) { animation-delay: 40ms; }
+.stat-grid .stat-card:nth-child(2) { animation-delay: 90ms; }
+.stat-grid .stat-card:nth-child(3) { animation-delay: 140ms; }
+.stat-grid .stat-card:nth-child(4) { animation-delay: 190ms; }
+.stat-grid .stat-card:nth-child(5) { animation-delay: 240ms; }
+.stat-grid .stat-card:nth-child(6) { animation-delay: 290ms; }
+
+/*
+ * ★ ACESSIBILIDADE -- e nao e' detalhe.
+ *   Ha pessoas para quem movimento na tela causa enjoo e tontura (disturbio
+ *   vestibular). Elas ligam "reduzir movimento" no sistema. Este bloco
+ *   respeita isso: some com a animacao e mantem a interface inteira
+ *   funcionando. Nada de conteudo depende de ter animado.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===========================================================================
+   RESPONSIVO
+   =========================================================================== */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  .sidebar__nav { flex-direction: row; gap: 4px; }
+  .sidebar__nav a { padding: 8px 12px; white-space: nowrap; }
+  .sidebar__nav a::before { display: none; }
+  .sidebar__foot { margin-top: 0; margin-left: auto; }
+  .theme-toggle { width: auto; }
+  .content { padding: 20px 18px 44px; }
+}
+
+@media (max-width: 720px) {
+  h1 { font-size: 21px; }
+  .content { padding: 16px 13px 40px; }
+  .bar-row { grid-template-columns: 108px 1fr 62px; gap: 10px; }
+  .detail-row { grid-template-columns: 1fr; gap: 3px; }
+  .form-actions { flex-direction: column-reverse; }
+  .form-actions .btn { width: 100%; }
+  /* A tabela rola dentro do proprio painel, para a PAGINA nunca rolar de
+     lado -- rolagem horizontal no corpo e' o erro classico no celular. */
+  .panel__body--flush { overflow-x: auto; }
+  table { min-width: 620px; }
+}
+
+/* ===========================================================================
+   PAGINACAO
+   =========================================================================== */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 13px 20px;
+  border-top: 1px solid var(--border-soft);
+  background: var(--surface-2);
+}
+
+/* O contador ("21–40 de 5.000") e' a peca que responde "quantos existem?".
+   Sem ele o usuario nao sabe se a lista acabou ou se ha mais 200 paginas. */
+.pager__info { font-size: 13px; color: var(--text-soft); font-variant-numeric: tabular-nums; }
+.pager__info strong { color: var(--text); font-weight: 600; }
+
+.pager__controls { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.pager__page {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-soft);
+  padding: 0 10px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Campo de busca com a lupa embutida */
+.search-field { position: relative; flex: 1 1 260px; min-width: 200px; }
+.search-field input { padding-left: 36px; }
+.search-field::before {
+  content: "⌕";
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-faint);
+  font-size: 17px;
+  pointer-events: none;
+}
+
+/* Barra de filtros: vira um bloco proprio acima da tabela */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.toolbar .field { min-width: 150px; }
+
+/* Chip que mostra os filtros ativos -- o usuario precisa VER que a lista
+   esta filtrada, senao acha que o sistema perdeu os dados. */
+.filter-chips { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--brand-50);
+  color: var(--brand-600);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--brand-200);
+}
+.chip button {
+  background: none; border: none; padding: 0; cursor: pointer;
+  color: inherit; font-size: 14px; line-height: 1; opacity: .7;
+}
+.chip button:hover { opacity: 1; }
+
+@media (max-width: 720px) {
+  .pager { justify-content: center; }
+  .pager__info { width: 100%; text-align: center; }
+  .toolbar { padding: 13px; }
+}
+
+/* ===========================================================================
+   TELA DE LOGIN
+   =========================================================================== */
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  /* Fundo com um brilho suave atras do cartao: da' profundidade sem
+     precisar de imagem, e funciona nos dois temas porque usa os tokens. */
+  background:
+    radial-gradient(1100px 620px at 50% -8%, var(--brand-50), transparent 62%),
+    var(--bg);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 412px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 34px 32px 28px;
+  animation: rise 460ms var(--ease) both;
+}
+
+.login-brand {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 22px;
+}
+.login-brand::before {
+  content: "";
+  width: 9px; height: 24px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--brand-400), var(--brand-600));
+}
+.login-brand span { color: var(--brand-500); }
+
+.login-card h1 { font-size: 25px; margin-bottom: 5px; }
+.login-sub { margin: 0 0 24px; color: var(--text-soft); font-size: 14px; }
+
+.login-form { display: flex; flex-direction: column; gap: 15px; }
+.login-btn { width: 100%; padding: 11px; font-size: 14.5px; margin-top: 4px; }
+
+.login-error {
+  background: var(--red-bg);
+  color: var(--red);
+  border: 1px solid var(--red);
+  border-radius: var(--radius-sm);
+  padding: 10px 13px;
+  font-size: 13.5px;
+  font-weight: 500;
+  animation: rise 260ms var(--ease) both;
+}
+
+.login-demo {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.login-demo__title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 3px;
+}
+.login-demo__row {
+  text-align: left;
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transition: border-color var(--fast) var(--ease), background-color var(--fast) var(--ease);
+}
+.login-demo__row:hover { border-color: var(--brand-500); background: var(--brand-50); }
+.login-demo__row strong {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--brand-600);
+  font-weight: 600;
+}
+.login-demo__row span { font-size: 12px; color: var(--text-soft); }
+
+/* ===========================================================================
+   USUARIO NA SIDEBAR
+   =========================================================================== */
+.sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .08);
+  margin-bottom: 8px;
+}
+
+/* Avatar com as iniciais: identifica quem esta logado sem precisar de foto
+   nem de mais uma requisicao. */
+.sidebar__avatar {
+  width: 30px; height: 30px;
+  flex: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand-400), var(--brand-600));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.sidebar__who { min-width: 0; display: flex; flex-direction: column; }
+.sidebar__who b {
+  font-size: 12.5px;
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidebar__who small {
+  font-size: 10.5px;
+  color: var(--sidebar-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar__actions { display: flex; gap: 6px; }
+.sidebar__actions .theme-toggle { flex: 1; justify-content: center; }
+.btn-sair {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, .04);
+  color: var(--sidebar-text);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+.btn-sair:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+/* Faixa que aparece so para quem enxerga uma empresa: deixa explicito que
+   a tela esta filtrada. Sem isso o usuario acha que o sistema perdeu dados. */
+.escopo-aviso {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 16px;
+  border-radius: var(--radius);
+  background: var(--brand-50);
+  border: 1px solid var(--brand-200);
+  color: var(--brand-600);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+/* Cabecalho de tabela clicavel */
+.th-sort { cursor: pointer; user-select: none; transition: color var(--fast) var(--ease); }
+.th-sort:hover { color: var(--brand-500); }
+.th-sort--ativa { color: var(--brand-500); }
+
+/* Subtitulo do painel: diz a UNIDADE do grafico.
+   Um numero sem unidade nao informa -- "18" pode ser chamados, horas ou
+   reais. O subtitulo elimina a duvida sem exigir legenda. */
+.panel__sub { margin: 3px 0 0; font-size: 12.5px; color: var(--text-soft); font-weight: 400; }
+.panel__head h2 { line-height: 1.25; }

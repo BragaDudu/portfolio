@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - SportStore</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <h1>🏃 SportStore</h1>
+            <nav class="nav-menu">
+                <a href="index.html" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 10px;">← Continuar Comprando</a>
+                <a href="carrinho.html" class="cart-link">
+                    🛒 Carrinho (<span id="cart-count">0</span>)
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CARRINHO -->
+    <main class="container">
+        <h2 class="section-title">🛒 Seu Carrinho</h2>
+        
+        <div class="cart-container">
+            <!-- ITENS DO CARRINHO -->
+            <div class="cart-items" id="cart-items">
+                <!-- Preenchido pelo JavaScript -->
+            </div>
+            
+            <!-- RESUMO DO PEDIDO -->
+            <div class="cart-summary" id="cart-summary">
+                <!-- Preenchido pelo JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🏃 SportStore</h3>
+                <p>Sua loja de equipamentos esportivos</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Rápidos</h4>
+                <a href="index.html">Produtos</a>
+                <a href="carrinho.html">Carrinho</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <p>📧 contato@sportstore.com</p>
+                <p>📱 (11) 9999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SportStore - Desenvolvido por Eduardo Braga 💚</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+    <script src="carrinho.js"></script>
+</body>
+</html>

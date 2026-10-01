@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Equipamentos — HelpDesk & Monitoring</title>
+    <!-- ★ GUARDA DE SESSAO -- roda ANTES de tudo.
+         Sem token, redireciona para o login imediatamente. Se esperasse o
+         DOMContentLoaded, a tela apareceria vazia e dispararia quatro
+         erros 401 antes de redirecionar. -->
+    <script src="js/demo-api.js?v=1"></script>
+    <script src="js/auth.js?v=11"></script>
+    <script>if (!auth.exigirLogin()) { throw new Error("redirecionando"); }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="css/style.css?v=11" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar__brand">Help<span>Desk</span></div>
+        <nav class="sidebar__nav">
+          <a href="index.html" data-page="index.html"><span class="icon">▤</span> Dashboard</a>
+          <a href="clientes.html" data-page="clientes.html"><span class="icon">◍</span> Clientes</a>
+          <a href="chamados.html" data-page="chamados.html"><span class="icon">✉</span> Chamados</a>
+          <a href="equipamentos.html" data-page="equipamentos.html"><span class="icon">▣</span> Equipamentos</a>
+          <a href="alertas.html" data-page="alertas.html"><span class="icon">⚠</span> Alertas</a>
+        </nav>
+        <!-- preenchido por ui.js -> montarSessao() -->
+        <div class="sidebar__foot"></div>
+      </aside>
+
+      <main class="content">
+        <div class="page-header">
+          <div>
+            <h1>Equipamentos</h1>
+            <p>Temperatura atual vem da última leitura. Leitura &gt; 80&deg;C gera alerta no servidor.</p>
+          </div>
+          <button class="btn" onclick="openModal('modal-equip')">+ Novo equipamento</button>
+        </div>
+
+        <div class="panel">
+          <div class="toolbar">
+            <div class="field search-field">
+              <label for="f-eq-busca">Buscar</label>
+              <input id="f-eq-busca" type="search" placeholder="EQP-0007, nome ou local..." />
+            </div>
+            <div class="field">
+              <label for="f-eq-status">Status</label>
+              <select id="f-eq-status">
+                <option value="">Todos</option>
+                <option value="ONLINE">Online</option>
+                <option value="OFFLINE">Offline</option>
+                <option value="MANUTENCAO">Manutenção</option>
+              </select>
+            </div>
+            <button class="btn btn--ghost btn--sm" id="btn-eq-limpar" type="button">Limpar filtros</button>
+          </div>
+          <div class="panel__body panel__body--flush">
+            <div id="equip-table"><div class="state state--loading">Carregando...</div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- MODAL: novo equipamento -->
+    <div class="modal" id="modal-equip" hidden>
+      <div class="modal__box">
+        <div class="modal__head">
+          <h2>Novo equipamento</h2>
+          <button class="modal__close" onclick="closeModal('modal-equip')">&times;</button>
+        </div>
+        <div class="modal__body">
+          <form id="form-equip" class="form-grid" novalidate>
+            <div class="field">
+              <label>Cliente *</label>
+              <select name="client_id" required><option value="">Carregando...</option></select>
+            </div>
+            <div class="field">
+              <label>Identificação *</label>
+              <input name="identifier" type="text" placeholder="EQP-0100" required />
+            </div>
+            <div class="field">
+              <label>Nome *</label>
+              <input name="name" type="text" placeholder="Servidor Rack B2" required />
+            </div>
+            <div class="field">
+              <label>Localização</label>
+              <input name="location" type="text" placeholder="Sala de servidores" />
+            </div>
+            <div class="field">
+              <label>Status inicial</label>
+              <select name="status">
+                <option value="ONLINE" selected>Online</option>
+                <option value="OFFLINE">Offline</option>
+                <option value="MANUTENCAO">Manutenção</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn--ghost" onclick="closeModal('modal-equip')">Cancelar</button>
+              <button type="submit" class="btn">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: detalhe do equipamento (histórico + enviar leitura) -->
+    <div class="modal" id="modal-eq-detail" hidden>
+      <div class="modal__box">
+        <div class="modal__head">
+          <h2 id="ed-title">Equipamento</h2>
+          <button class="modal__close" onclick="closeModal('modal-eq-detail')">&times;</button>
+        </div>
+        <div class="modal__body" id="ed-body"></div>
+      </div>
+    </div>
+
+    <script src="js/api.js?v=11"></script>
+    <script src="js/ui.js?v=11"></script>
+    <script src="js/equipamentos.js?v=11"></script>
+  </body>
+</html>

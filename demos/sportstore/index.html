@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Loja - E-commerce Esportivo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="imagens/favicon.png" type="image/x-icon">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <h1>🏃 SportStore</h1>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link active">Início</a>
+                
+                <!-- DROPDOWN DE CATEGORIAS -->
+                <div class="dropdown">
+                    <button class="dropdown-btn">
+                        Produtos ▼
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="#" data-category="tenis">👟 Tênis</a>
+                        <a href="#" data-category="camisetas">👕 Camisetas</a>
+                        <a href="#" data-category="shorts">🩳 Shorts</a>
+                        <a href="#" data-category="acessorios">⌚ Acessórios</a>
+                        <a href="#" data-category="todos">📦 Ver Todos</a>
+                    </div>
+                </div>
+                
+                <a href="carrinho.html" class="cart-link">
+                    🛒 Carrinho (<span id="cart-count">0</span>)
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- BANNER HERO -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h2>🔥 Mega Promoção de Inverno!</h2>
+            <p>Até 50% OFF em produtos selecionados</p>
+            <button class="btn-hero" onclick="scrollToProducts()">Ver Ofertas</button>
+        </div>
+    </section>
+
+    <!-- PRODUTOS -->
+    <main class="container">
+        <div class="section-header">
+            <h2 class="section-title">Nossos Produtos</h2>
+            <p class="section-subtitle">Os melhores equipamentos para seus treinos</p>
+        </div>
+        
+        <!-- GRID DE PRODUTOS -->
+        <div class="products-grid" id="products-grid">
+            
+            <!-- ========== TÊNIS (5 produtos) ========== -->
+            
+            <!-- PRODUTO 1 -->
+            <div class="product-card" data-category="tenis" data-id="1">
+                <div class="product-badge">-33%</div>
+                <div class="product-image">
+                    <img src="imagens/tenis/tenis-corrida-01.webp" alt="Tênis Running Pro">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tênis</span>
+                    <h3 class="product-title">Tênis Running Pro</h3>
+                    <p class="product-description">
+                        Tênis ideal para corrida de longa distância com amortecimento superior.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 299,00</span>
+                        <span class="price-current" data-price="199">R$ 199,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(1)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(1)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 2 -->
+            <div class="product-card" data-category="tenis" data-id="2">
+                <div class="product-badge">-29%</div>
+                <div class="product-image">
+                    <img src="imagens/tenis/tenis-corrida-02.jpeg" alt="Tênis Speed Max">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tênis</span>
+                    <h3 class="product-title">Tênis Speed Max</h3>
+                    <p class="product-description">
+                        Leveza e velocidade para treinos intensos e competições.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 349,00</span>
+                        <span class="price-current" data-price="249">R$ 249,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(2)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(2)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 3 -->
+            <div class="product-card" data-category="tenis" data-id="3">
+                <div class="product-badge">-32%</div>
+                <div class="product-image">
+                    <img src="imagens/tenis/tenis-corrida-03.jpeg" alt="Tênis Ultra Comfort">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tênis</span>
+                    <h3 class="product-title">Tênis Ultra Comfort</h3>
+                    <p class="product-description">
+                        Máximo conforto para o dia a dia e caminhadas longas.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 279,00</span>
+                        <span class="price-current" data-price="189">R$ 189,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(3)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(3)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 4 -->
+            <div class="product-card" data-category="tenis" data-id="4">
+                <div class="product-badge">-25%</div>
+                <div class="product-image">
+                    <img src="imagens/tenis/tenis-corrida-04.jpeg" alt="Tênis Trail Runner">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tênis</span>
+                    <h3 class="product-title">Tênis Trail Runner</h3>
+                    <p class="product-description">
+                        Perfeito para trilhas e terrenos irregulares com grip superior.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 399,00</span>
+                        <span class="price-current" data-price="299">R$ 299,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(4)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(4)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 5 -->
+            <div class="product-card" data-category="tenis" data-id="5">
+                <div class="product-badge">-24%</div>
+                <div class="product-image">
+                    <img src="imagens/tenis/tenis-corrida-05.webp" alt="Tênis Elite Racing">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Tênis</span>
+                    <h3 class="product-title">Tênis Elite Racing</h3>
+                    <p class="product-description">
+                        Para atletas que buscam performance máxima em competições.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 499,00</span>
+                        <span class="price-current" data-price="379">R$ 379,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(5)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(5)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== CAMISETAS (5 produtos) ========== -->
+
+            <!-- PRODUTO 6 -->
+            <div class="product-card" data-category="camisetas" data-id="6">
+                <div class="product-badge">-39%</div>
+                <div class="product-image">
+                    <img src="imagens/camisetas/camiseta-corrida-01.jpeg" alt="Camiseta Dry Fit">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Camisetas</span>
+                    <h3 class="product-title">Camiseta Dry Fit</h3>
+                    <p class="product-description">
+                        Tecnologia que mantém você seco durante o treino mais intenso.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 129,00</span>
+                        <span class="price-current" data-price="79">R$ 79,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(6)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(6)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 7 -->
+            <div class="product-card" data-category="camisetas" data-id="7">
+                <div class="product-badge">-40%</div>
+                <div class="product-image">
+                    <img src="imagens/camisetas/camiseta-corrida-02.jpeg" alt="Camiseta Running Pro">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Camisetas</span>
+                    <h3 class="product-title">Camiseta Running Pro</h3>
+                    <p class="product-description">
+                        Leve e respirável para máxima performance em qualquer treino.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 149,00</span>
+                        <span class="price-current" data-price="89">R$ 89,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(7)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(7)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 8 -->
+            <div class="product-card" data-category="camisetas" data-id="8">
+                <div class="product-badge">-42%</div>
+                <div class="product-image">
+                    <img src="imagens/camisetas/camiseta-corrida-03.jpeg" alt="Camiseta Sport Comfort">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Camisetas</span>
+                    <h3 class="product-title">Camiseta Sport Comfort</h3>
+                    <p class="product-description">
+                        Conforto absoluto para treinos longos e uso casual.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 119,00</span>
+                        <span class="price-current" data-price="69">R$ 69,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(8)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(8)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 9 -->
+            <div class="product-card" data-category="camisetas" data-id="9">
+                <div class="product-badge">-38%</div>
+                <div class="product-image">
+                    <img src="imagens/camisetas/camiseta-corrida-04.jpeg" alt="Camiseta Tech Performance">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Camisetas</span>
+                    <h3 class="product-title">Camiseta Tech Performance</h3>
+                    <p class="product-description">
+                        Tecnologia avançada para atletas exigentes que buscam o melhor.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 159,00</span>
+                        <span class="price-current" data-price="99">R$ 99,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(9)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(9)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 10 -->
+            <div class="product-card" data-category="camisetas" data-id="10">
+                <div class="product-badge">-34%</div>
+                <div class="product-image">
+                    <img src="imagens/camisetas/camiseta-corrida-05.jpeg" alt="Camiseta Elite Runner">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Camisetas</span>
+                    <h3 class="product-title">Camiseta Elite Runner</h3>
+                    <p class="product-description">
+                        Edição especial para corredores profissionais e competições.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 179,00</span>
+                        <span class="price-current" data-price="119">R$ 119,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(10)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(10)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== SHORTS (5 produtos) ========== -->
+
+            <!-- PRODUTO 11 -->
+            <div class="product-card" data-category="shorts" data-id="11">
+                <div class="product-badge">-38%</div>
+                <div class="product-image">
+                    <img src="imagens/shorts/shorts-corrida-01.jpeg" alt="Shorts Performance Pro">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Shorts</span>
+                    <h3 class="product-title">Shorts Performance Pro</h3>
+                    <p class="product-description">
+                        Liberdade de movimento total para seus treinos mais intensos.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 129,00</span>
+                        <span class="price-current" data-price="79">R$ 79,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(11)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(11)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 12 -->
+            <div class="product-card" data-category="shorts" data-id="12">
+                <div class="product-badge">-35%</div>
+                <div class="product-image">
+                    <img src="imagens/shorts/shorts-corrida-02.jpeg" alt="Shorts Running Light">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Shorts</span>
+                    <h3 class="product-title">Shorts Running Light</h3>
+                    <p class="product-description">
+                        Ultra leve e respirável para corridas de longa distância.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 139,00</span>
+                        <span class="price-current" data-price="89">R$ 89,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(12)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(12)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 13 -->
+            <div class="product-card" data-category="shorts" data-id="13">
+                <div class="product-badge">-40%</div>
+                <div class="product-image">
+                    <img src="imagens/shorts/shorts-corrida-03.jpeg" alt="Shorts Training Comfort">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Shorts</span>
+                    <h3 class="product-title">Shorts Training Comfort</h3>
+                    <p class="product-description">
+                        Conforto máximo para treinos de academia e atividades variadas.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 99,00</span>
+                        <span class="price-current" data-price="59">R$ 59,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(13)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(13)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 14 -->
+            <div class="product-card" data-category="shorts" data-id="14">
+                <div class="product-badge">-33%</div>
+                <div class="product-image">
+                    <img src="imagens/shorts/shorts-corrida-04.jpeg" alt="Shorts Sport Flex">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Shorts</span>
+                    <h3 class="product-title">Shorts Sport Flex</h3>
+                    <p class="product-description">
+                        Elasticidade e durabilidade para os treinos mais exigentes.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 149,00</span>
+                        <span class="price-current" data-price="99">R$ 99,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(14)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(14)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 15 -->
+            <div class="product-card" data-category="shorts" data-id="15">
+                <div class="product-badge">-37%</div>
+                <div class="product-image">
+                    <img src="imagens/shorts/shorts-corrida-05.jpeg" alt="Shorts Elite Competition">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Shorts</span>
+                    <h3 class="product-title">Shorts Elite Competition</h3>
+                    <p class="product-description">
+                        Desenvolvido para atletas de alta performance em competições.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 189,00</span>
+                        <span class="price-current" data-price="119">R$ 119,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(15)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(15)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== ACESSÓRIOS (5 produtos) ========== -->
+
+            <!-- PRODUTO 16 -->
+            <div class="product-card" data-category="acessorios" data-id="16">
+                <div class="product-badge">-50%</div>
+                <div class="product-image">
+                    <img src="imagens/acessorios/acessorios-corrida-01.jpeg" alt="Relógio GPS Running">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Acessórios</span>
+                    <h3 class="product-title">Relógio GPS Running</h3>
+                    <p class="product-description">
+                        Monitore distância, ritmo e frequência cardíaca em tempo real.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 799,00</span>
+                        <span class="price-current" data-price="399">R$ 399,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(16)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(16)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 17 -->
+            <div class="product-card" data-category="acessorios" data-id="17">
+                <div class="product-badge">-43%</div>
+                <div class="product-image">
+                    <img src="imagens/acessorios/acessorios-corrida-02.jpeg" alt="Garrafa Térmica Sport">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Acessórios</span>
+                    <h3 class="product-title">Garrafa Térmica Sport</h3>
+                    <p class="product-description">
+                        Mantém suas bebidas geladas por até 24 horas durante o treino.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 69,00</span>
+                        <span class="price-current" data-price="39">R$ 39,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(17)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(17)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 18 -->
+            <div class="product-card" data-category="acessorios" data-id="18">
+                <div class="product-badge">-45%</div>
+                <div class="product-image">
+                    <img src="imagens/acessorios/acessorios-corrida-03.jpeg" alt="Mochila Hidratação">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Acessórios</span>
+                    <h3 class="product-title">Mochila Hidratação</h3>
+                    <p class="product-description">
+                        Ideal para trilhas longas com sistema de hidratação integrado.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 179,00</span>
+                        <span class="price-current" data-price="99">R$ 99,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(18)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(18)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 19 -->
+            <div class="product-card" data-category="acessorios" data-id="19">
+                <div class="product-badge">-40%</div>
+                <div class="product-image">
+                    <img src="imagens/acessorios/acessorios-corrida-04.jpeg" alt="Fone Bluetooth Sport">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Acessórios</span>
+                    <h3 class="product-title">Fone Bluetooth Sport</h3>
+                    <p class="product-description">
+                        À prova d'água com cancelamento de ruído para foco total.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 249,00</span>
+                        <span class="price-current" data-price="149">R$ 149,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(19)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(19)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUTO 20 -->
+            <div class="product-card" data-category="acessorios" data-id="20">
+                <div class="product-badge">-38%</div>
+                <div class="product-image">
+                    <img src="imagens/acessorios/acessorios-corrida-05.jpeg" alt="Kit Acessórios Runner">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Acessórios</span>
+                    <h3 class="product-title">Kit Acessórios Runner</h3>
+                    <p class="product-description">
+                        Conjunto completo: braçadeira, viseira, meias e toalha esportiva.
+                    </p>
+                    <div class="product-price">
+                        <span class="price-old">R$ 129,00</span>
+                        <span class="price-current" data-price="79">R$ 79,00</span>
+                    </div>
+                    <div class="product-buttons">
+                        <button class="btn-buy" onclick="addToCart(20)">
+                            🛒 Adicionar
+                        </button>
+                        <button class="btn-details" onclick="viewDetails(20)">
+                            👁️ Detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🏃 SportStore</h3>
+                <p>Sua loja de equipamentos esportivos</p>
+            </div>
+            <div class="footer-section">
+                <h4>Links Rápidos</h4>
+                <a href="index.html">Produtos</a>
+                <a href="carrinho.html">Carrinho</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <p>📧 contato@sportstore.com</p>
+                <p>📱 (11) 9999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SportStore - Desenvolvido por Eduardo Braga 💚</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+</body>
+</html>

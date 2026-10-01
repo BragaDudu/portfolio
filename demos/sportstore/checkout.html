@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - SportStore</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <h1>🏃 SportStore</h1>
+            <nav class="nav-menu">
+                <a href="index.html" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 10px; transition: all 0.3s;">← Voltar para Loja</a>
+                <a href="carrinho.html" class="cart-link">
+        🛒 Carrinho (<span id="cart-count">0</span>)
+                </a>
+            </nav>    
+        </div>
+    </header>
+
+    <!-- CHECKOUT -->
+    <main class="container">
+        <div class="checkout-header">
+            <h2 class="section-title">🔒 Finalizar Compra</h2>
+            <div class="checkout-steps">
+                <div class="step active">1. Dados</div>
+                <div class="step">2. Pagamento</div>
+                <div class="step">3. Confirmação</div>
+            </div>
+        </div>
+        
+        <div class="checkout-container">
+            <!-- FORMULÁRIO -->
+            <div class="checkout-form">
+                <form id="checkout-form">
+                    <!-- DADOS PESSOAIS -->
+                    <div class="form-section">
+                        <h3>📋 Dados Pessoais</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nome Completo *</label>
+                                <input type="text" id="nome" required placeholder="Seu nome completo">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" id="email" required placeholder="seu@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Telefone *</label>
+                                <input type="tel" id="telefone" required placeholder="(11) 99999-9999">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ENDEREÇO -->
+                    <div class="form-section">
+                        <h3>📍 Endereço de Entrega</h3>
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 0.4;">
+                                <label>CEP *</label>
+                                <input type="text" id="cep" required placeholder="00000-000" maxlength="9">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="flex: 3;">
+                                <label>Rua *</label>
+                                <input type="text" id="rua" required placeholder="Nome da rua">
+                            </div>
+                            <div class="form-group" style="flex: 1;">
+                                <label>Número *</label>
+                                <input type="text" id="numero" required placeholder="123">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Complemento</label>
+                                <input type="text" id="complemento" placeholder="Apto, Bloco, etc">
+                            </div>
+                            <div class="form-group">
+                                <label>Bairro *</label>
+                                <input type="text" id="bairro" required placeholder="Bairro">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Cidade *</label>
+                                <input type="text" id="cidade" required placeholder="Cidade">
+                            </div>
+                            <div class="form-group" style="flex: 0.5;">
+                                <label>Estado *</label>
+                                <select id="estado" required>
+                                    <option value="">UF</option>
+                                    <option value="SP">SP</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="MG">MG</option>
+                                    <option value="ES">ES</option>
+                                    <option value="PR">PR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="RS">RS</option>
+                                    <!-- Adicione outros estados conforme necessário -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAGAMENTO -->
+                    <div class="form-section">
+                        <h3>💳 Forma de Pagamento</h3>
+                        
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="pagamento" value="credito" checked>
+                                <div class="payment-option-content">
+                                    <span class="payment-icon">💳</span>
+                                    <div>
+                                        <strong>Cartão de Crédito</strong>
+                                        <p>Parcelamento em até 12x</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="payment-option">
+                                <input type="radio" name="pagamento" value="pix">
+                                <div class="payment-option-content">
+                                    <span class="payment-icon">🏦</span>
+                                    <div>
+                                        <strong>PIX</strong>
+                                        <p>Aprovação instantânea</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="payment-option">
+                                <input type="radio" name="pagamento" value="boleto">
+                                <div class="payment-option-content">
+                                    <span class="payment-icon">📱</span>
+                                    <div>
+                                        <strong>Boleto Bancário</strong>
+                                        <p>Vencimento em 3 dias</p>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- DADOS DO CARTÃO (aparecem apenas se cartão selecionado) -->
+                        <div id="cartao-form" class="cartao-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Número do Cartão *</label>
+                                    <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000" maxlength="19">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nome no Cartão *</label>
+                                    <input type="text" id="nome-cartao" placeholder="Como está no cartão">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Validade *</label>
+                                    <input type="text" id="validade" placeholder="MM/AA" maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <label>CVV *</label>
+                                    <input type="text" id="cvv" placeholder="123" maxlength="4">
+                                </div>
+                                <div class="form-group">
+                                    <label>Parcelas *</label>
+                                    <select id="parcelas">
+                                        <option value="1">1x sem juros</option>
+                                        <option value="2">2x sem juros</option>
+                                        <option value="3">3x sem juros</option>
+                                        <option value="4">4x sem juros</option>
+                                        <option value="5">5x sem juros</option>
+                                        <option value="6">6x sem juros</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-buy btn-large btn-checkout">
+                        🔒 Finalizar Pedido
+                    </button>
+                </form>
+            </div>
+
+            <!-- RESUMO DO PEDIDO -->
+            <div class="checkout-summary" id="checkout-summary">
+                <!-- Preenchido pelo JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🏃 SportStore</h3>
+                <p>Sua loja de equipamentos esportivos</p>
+            </div>
+            <div class="footer-section">
+                <h4>Segurança</h4>
+                <p>🔒 Compra 100% Segura</p>
+                <p>✅ Certificado SSL</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contato</h4>
+                <p>📧 contato@sportstore.com</p>
+                <p>📱 (11) 9999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SportStore - Desenvolvido por Eduardo Braga 💚</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+    <script src="checkout.js"></script>
+</body>
+</html>

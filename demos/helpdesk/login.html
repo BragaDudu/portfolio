@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+  login.html -- a porta de entrada.
+
+  ★ POR QUE ESTA PAGINA NAO TEM O MENU LATERAL:
+    porque quem ainda nao entrou nao tem para onde navegar. Mostrar o menu
+    e depois bloquear cada item seria pior: promete acesso e nega em
+    seguida. Tela de login e' uma tela SEM saida a nao ser entrar.
+-->
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrar — HelpDesk &amp; Monitoring</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="css/style.css?v=11" />
+  </head>
+  <body>
+    <div class="login-page">
+      <div class="login-card">
+        <div class="login-brand">Help<span>Desk</span></div>
+        <h1>Entrar</h1>
+        <p class="login-sub">Gestão de chamados e monitoramento de equipamentos.</p>
+
+        <form id="form-login" class="login-form" novalidate>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <!-- autocomplete ajuda o gerenciador de senhas do navegador a
+                 reconhecer os campos. Sem isso ele nao oferece salvar. -->
+            <input id="email" name="email" type="email"
+                   autocomplete="username" required autofocus
+                   placeholder="voce@empresa.com.br" />
+          </div>
+
+          <div class="field">
+            <label for="password">Senha</label>
+            <input id="password" name="password" type="password"
+                   autocomplete="current-password" required
+                   placeholder="••••••••" />
+          </div>
+
+          <!-- Espaco reservado para o erro. Fica no HTML desde o inicio,
+               oculto: se fosse criado por JavaScript, a caixa apareceria do
+               nada e empurraria o botao para baixo no momento do erro. -->
+          <div class="login-error" id="login-error" hidden></div>
+
+          <button class="btn login-btn" type="submit" id="btn-entrar">Entrar</button>
+        </form>
+
+        <div class="login-demo">
+          <div class="login-demo__title">Acessos de demonstração</div>
+          <button type="button" class="login-demo__row"
+                  data-email="admin@helpdesk.com.br" data-senha="admin12345">
+            <strong>admin@helpdesk.com.br</strong>
+            <span>Empresa de TI — vê todos os clientes</span>
+          </button>
+          <button type="button" class="login-demo__row"
+                  data-email="empresa1@cliente.com.br" data-senha="empresa12345">
+            <strong>empresa1@cliente.com.br</strong>
+            <span>Cliente — vê apenas a própria empresa</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- auth.js vem PRIMEIRO: api.js e login.js dependem do objeto auth.
+         Aqui NAO ha guarda de sessao -- esta e' justamente a pagina de quem
+         ainda nao tem sessao. -->
+    <script src="js/demo-api.js?v=1"></script>
+    <script src="js/auth.js?v=11"></script>
+    <script src="js/api.js?v=11"></script>
+    <script src="js/ui.js?v=11"></script>
+    <script src="js/login.js?v=11"></script>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Confirmado - SportStore</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <h1>🏃 SportStore</h1>
+            <nav class="nav-menu">
+                <a href="index.html" style="color: white; text-decoration: none; padding: 10px 20px; background: rgba(255,255,255,0.2); border-radius: 10px; font-weight: 600; transition: all 0.3s;">🏠 Voltar para Loja</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CONFIRMAÇÃO -->
+    <main class="container">
+        <div class="confirmation-page" id="confirmation-content">
+            <!-- Preenchido pelo JavaScript -->
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>🏃 SportStore</h3>
+                <p>Sua loja de equipamentos esportivos</p>
+            </div>
+            <div class="footer-section">
+                <h4>Atendimento</h4>
+                <p>📧 contato@sportstore.com</p>
+                <p>📱 (11) 9999-9999</p>
+            </div>
+            <div class="footer-section">
+                <h4>Horário</h4>
+                <p>Segunda a Sexta: 9h às 18h</p>
+                <p>Sábado: 9h às 13h</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SportStore - Desenvolvido por Eduardo Braga 💚</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pedido = JSON.parse(localStorage.getItem('ultimoPedido'));
+            const contentDiv = document.getElementById('confirmation-content');
+            
+            if (!pedido) {
+                contentDiv.innerHTML = `
+                    <div class="error-message">
+                        <h2>❌ Nenhum pedido encontrado</h2>
+                        <p>Não encontramos informações sobre seu pedido.</p>
+                        <a href="index.html" class="btn-buy btn-large">Voltar para Loja</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Formatar data
+            const data = new Date(pedido.data);
+            const dataFormatada = data.toLocaleDateString('pt-BR') + ' às ' + data.toLocaleTimeString('pt-BR');
+            
+            // Prazo de entrega (7 dias úteis)
+            const prazoEntrega = new Date(data);
+            prazoEntrega.setDate(prazoEntrega.getDate() + 7);
+            const prazoFormatado = prazoEntrega.toLocaleDateString('pt-BR');
+            
+            // Forma de pagamento
+            const formasPagamento = {
+                'credito': '💳 Cartão de Crédito',
+                'pix': '🏦 PIX',
+                'boleto': '📱 Boleto Bancário'
+            };
+            
+            let itensHTML = '';
+            pedido.itens.forEach(item => {
+                itensHTML += `
+                    <div class="order-item">
+                        <img src="${item.imagem}" alt="${item.nome}">
+                        <div class="order-item-info">
+                            <h4>${item.nome}</h4>
+                            <p>Quantidade: ${item.quantidade}</p>
+                            <p class="order-item-price">R$ ${(item.preco * item.quantidade).toFixed(2)}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            contentDiv.innerHTML = `
+                <div class="confirmation-success">
+                    <div class="success-icon">✅</div>
+                    <h1>Pedido Confirmado!</h1>
+                    <p class="confirmation-message">Obrigado pela sua compra, ${pedido.cliente.nome.split(' ')[0]}! 🎉</p>
+                    <p class="order-number">Número do Pedido: <strong>#${pedido.numero}</strong></p>
+                </div>
+                
+                <div class="confirmation-details">
+                    <div class="detail-card">
+                        <h3>📦 Informações do Pedido</h3>
+                        <p><strong>Data:</strong> ${dataFormatada}</p>
+                        <p><strong>Previsão de Entrega:</strong> ${prazoFormatado}</p>
+                        <p><strong>Forma de Pagamento:</strong> ${formasPagamento[pedido.pagamento.forma]}</p>
+                        ${pedido.pagamento.parcelas > 1 ? `<p><strong>Parcelamento:</strong> ${pedido.pagamento.parcelas}x de R$ ${(pedido.valores.total / pedido.pagamento.parcelas).toFixed(2)}</p>` : ''}
+                    </div>
+                    
+                    <div class="detail-card">
+                        <h3>📍 Endereço de Entrega</h3>
+                        <p>${pedido.endereco.rua}, ${pedido.endereco.numero}</p>
+                        ${pedido.endereco.complemento ? `<p>${pedido.endereco.complemento}</p>` : ''}
+                        <p>${pedido.endereco.bairro}</p>
+                        <p>${pedido.endereco.cidade} - ${pedido.endereco.estado}</p>
+                        <p>CEP: ${pedido.endereco.cep}</p>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <h3>💰 Resumo do Pagamento</h3>
+                        <div class="summary-line">
+                            <span>Subtotal:</span>
+                            <span>R$ ${pedido.valores.subtotal.toFixed(2)}</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Frete:</span>
+                            <span>${pedido.valores.frete === 0 ? 'GRÁTIS' : 'R$ ' + pedido.valores.frete.toFixed(2)}</span>
+                        </div>
+                        <div class="summary-line summary-total">
+                            <span>Total:</span>
+                            <span>R$ ${pedido.valores.total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-items-section">
+                    <h3>🛍️ Itens do Pedido</h3>
+                    <div class="order-items">
+                        ${itensHTML}
+                    </div>
+                </div>
+                
+                ${pedido.pagamento.forma === 'pix' ? `
+                    <div class="pix-section">
+                        <h3>🏦 Pagamento via PIX</h3>
+                        <p>Escaneie o QR Code abaixo ou copie o código para pagar:</p>
+                        <div class="pix-qrcode">
+                            <div class="qrcode-placeholder">
+                                📱<br>QR CODE<br>SIMULADO
+                            </div>
+                            <p style="margin-top: 15px; font-size: 12px; word-break: break-all; background: #f3f4f6; padding: 10px; border-radius: 8px;">
+                                00020126580014br.gov.bcb.pix0136${pedido.numero}520400005303986540${pedido.valores.total.toFixed(2)}5802BR5913SportStore6009SAO PAULO
+                            </p>
+                        </div>
+                        <button class="btn-buy btn-large" onclick="copiarCodigoPix()">📋 Copiar Código PIX</button>
+                    </div>
+                ` : ''}
+                
+                ${pedido.pagamento.forma === 'boleto' ? `
+                    <div class="boleto-section">
+                        <h3>📱 Boleto Bancário</h3>
+                        <p>O boleto foi enviado para seu email: <strong>${pedido.cliente.email}</strong></p>
+                        <p>Você também pode baixá-lo clicando no botão abaixo:</p>
+                        <button class="btn-buy btn-large" onclick="alert('Em produção, aqui seria gerado o PDF do boleto')">
+                            📄 Baixar Boleto
+                        </button>
+                        <p class="boleto-warning">⚠️ Vencimento em 3 dias úteis</p>
+                    </div>
+                ` : ''}
+                
+                <div class="next-steps">
+                    <h3>📧 Próximos Passos</h3>
+                    <ul>
+                        <li>✅ Você receberá um email de confirmação em <strong>${pedido.cliente.email}</strong></li>
+                        <li>📦 Acompanhe seu pedido através do número <strong>#${pedido.numero}</strong></li>
+                        <li>🚚 O código de rastreamento será enviado quando o produto for despachado</li>
+                        <li>💬 Dúvidas? Entre em contato pelo WhatsApp: (11) 9999-9999</li>
+                    </ul>
+                </div>
+                
+                <div class="confirmation-actions">
+                    <a href="index.html" class="btn-buy btn-large">🏃 Continuar Comprando</a>
+                    <button class="btn-details btn-large" onclick="window.print()">🖨️ Imprimir Pedido</button>
+                </div>
+            `;
+            
+            // Limpar pedido após 30 segundos (opcional)
+            setTimeout(() => {
+                localStorage.removeItem('ultimoPedido');
+            }, 30000);
+        });
+        
+        function copiarCodigoPix() {
+            const pedido = JSON.parse(localStorage.getItem('ultimoPedido'));
+            const codigoPix = `00020126580014br.gov.bcb.pix0136${pedido.numero}520400005303986540${pedido.valores.total.toFixed(2)}5802BR5913SportStore6009SAO PAULO`;
+            
+            navigator.clipboard.writeText(codigoPix).then(() => {
+                showNotification('✅ Código PIX copiado!');
+            });
+        }
+    </script>
+</body>
+</html>

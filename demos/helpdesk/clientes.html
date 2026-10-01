@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clientes — HelpDesk & Monitoring</title>
+    <!-- ★ GUARDA DE SESSAO -- roda ANTES de tudo.
+         Sem token, redireciona para o login imediatamente. Se esperasse o
+         DOMContentLoaded, a tela apareceria vazia e dispararia quatro
+         erros 401 antes de redirecionar. -->
+    <script src="js/demo-api.js?v=1"></script>
+    <script src="js/auth.js?v=11"></script>
+    <script>if (!auth.exigirLogin()) { throw new Error("redirecionando"); }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="css/style.css?v=11" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar__brand">Help<span>Desk</span></div>
+        <nav class="sidebar__nav">
+          <a href="index.html" data-page="index.html"><span class="icon">▤</span> Dashboard</a>
+          <a href="clientes.html" data-page="clientes.html"><span class="icon">◍</span> Clientes</a>
+          <a href="chamados.html" data-page="chamados.html"><span class="icon">✉</span> Chamados</a>
+          <a href="equipamentos.html" data-page="equipamentos.html"><span class="icon">▣</span> Equipamentos</a>
+          <a href="alertas.html" data-page="alertas.html"><span class="icon">⚠</span> Alertas</a>
+        </nav>
+        <!-- preenchido por ui.js -> montarSessao() -->
+        <div class="sidebar__foot"></div>
+      </aside>
+
+      <main class="content">
+        <div class="page-header">
+          <div>
+            <h1>Clientes</h1>
+            <p>Cadastro e consulta — cada registro vem da tabela <code>clients</code>.</p>
+          </div>
+          <button class="btn" onclick="openModal('modal-client')">+ Novo cliente</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div class="field">
+              <label for="search">Buscar</label>
+              <input id="search" type="text" placeholder="Nome, empresa ou e-mail..." />
+            </div>
+          </div>
+          <div class="panel__body panel__body--flush">
+            <div id="clients-table"><div class="state state--loading">Carregando...</div></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- MODAL: cadastrar cliente -->
+    <div class="modal" id="modal-client" hidden>
+      <div class="modal__box">
+        <div class="modal__head">
+          <h2>Novo cliente</h2>
+          <button class="modal__close" onclick="closeModal('modal-client')">&times;</button>
+        </div>
+        <div class="modal__body">
+          <!-- novalidate: deixamos o BACKEND validar (o navegador so ajuda) -->
+          <form id="form-client" class="form-grid" novalidate>
+            <div class="field">
+              <label>Nome *</label>
+              <input name="name" type="text" required />
+            </div>
+            <div class="field">
+              <label>Empresa *</label>
+              <input name="company" type="text" required />
+            </div>
+            <div class="field">
+              <label>E-mail *</label>
+              <input name="email" type="email" required />
+            </div>
+            <div class="field">
+              <label>Telefone *</label>
+              <input name="phone" type="text" placeholder="(11) 98888-7777" required />
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn--ghost" onclick="closeModal('modal-client')">Cancelar</button>
+              <button type="submit" class="btn">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: detalhe do cliente + chamados dele -->
+    <div class="modal" id="modal-detail" hidden>
+      <div class="modal__box">
+        <div class="modal__head">
+          <h2 id="detail-title">Cliente</h2>
+          <button class="modal__close" onclick="closeModal('modal-detail')">&times;</button>
+        </div>
+        <div class="modal__body" id="detail-body"></div>
+      </div>
+    </div>
+
+    <script src="js/api.js?v=11"></script>
+    <script src="js/ui.js?v=11"></script>
+    <script src="js/clientes.js?v=11"></script>
+  </body>
+</html>
